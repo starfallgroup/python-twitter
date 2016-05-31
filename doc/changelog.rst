@@ -11,6 +11,12 @@ __________
   :py:func:`twitter.api.Api.DestroyRetweet()` method allowing you to unretweet
   a tweet on behalf of the authenticated user.
 
+* Adds support for ``/accounts/settings.json`` endpoint via
+  :py:func:`twitter.api.Api.GetAccountSettings` method. Note that this is only
+  to retreive settings for the currently authenticated user. If you want to
+  update the user's settings, use
+  :py:func:`twitter.api.Api.UpdateAccountSettings`.
+
 
 Version 3.1
 ===========
