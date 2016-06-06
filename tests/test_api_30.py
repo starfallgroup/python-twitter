@@ -1694,3 +1694,35 @@ class ApiTest(unittest.TestCase):
 
         self.assertTrue(resp['protected'])
         self.assertTrue(resp['geo_enabled'])
+
+        ## WHAT
+        responses.add(responses.POST, DEFAULT_URL, body=resp_data, status=200)
+
+        resp = self.api._UploadMediaChunkedFinalize(media_id=737956420046356480)
+        self.assertEqual(len(responses.calls), 1)
+        self.assertTrue(resp)
+
+    @responses.activate
+    def testGetReverseGeocode(self):
+        with open('testdata/get_reverse_geocode.json') as f:
+            resp_data = f.read()
+        responses.add(responses.GET, DEFAULT_URL, body=resp_data, match_querystring=True, status=200)
+        resp = self.api.GetReverseGeocode(latitude=37.7821120598956, longitude=-122.400612831116)
+        self.assertTrue(isinstance(resp, list))
+
+        resp = self.api.GetReverseGeocode(latitude=37, longitude=-122, callback='test')
+
+        self.assertRaises(
+            twitter.TwitterError,
+            lambda: self.api.GetReverseGeocode(latitude=37, longitude=-180.4))
+
+    @responses.activate
+    def testGetReverseGeocode(self):
+        with open('testdata/get_reverse_geocode_callback.json') as f:
+            resp_data = f.read()
+        responses.add(responses.GET, DEFAULT_URL, body=resp_data, match_querystring=True, status=200)
+        resp = self.api.GetReverseGeocode(latitude=37, longitude=-122, callback='test')
+
+        self.assertTrue(isinstance(resp.jsonp, str))
+        self.assertEqual(resp.callback, 'test')
+        self.assertTrue(isinstance(resp.json, dict))
