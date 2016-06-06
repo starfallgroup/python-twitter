@@ -1695,10 +1695,6 @@ class ApiTest(unittest.TestCase):
         self.assertTrue(resp['protected'])
         self.assertTrue(resp['geo_enabled'])
 
-        ## WHAT
-        responses.add(responses.POST, DEFAULT_URL, body=resp_data, status=200)
-
-        resp = self.api._UploadMediaChunkedFinalize(media_id=737956420046356480)
         self.assertEqual(len(responses.calls), 1)
         self.assertTrue(resp)
 
