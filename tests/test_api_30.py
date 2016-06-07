@@ -1454,7 +1454,7 @@ class ApiTest(unittest.TestCase):
     @responses.activate
     def testGetStatusWithExtAltText(self):
         with open('testdata/get_status_ext_alt.json') as f:
-            resp_data = f.read() 
+            resp_data = f.read()
         responses.add(responses.GET, DEFAULT_URL, body=resp_data, status=200)
         resp = self.api.GetStatus(status_id=724441953534877696)
         self.assertEqual(resp.media[0].ext_alt_text, "\u201cJon Snow is dead.\u2026\u201d from \u201cGAME OF THRONES SEASON 6 EPISODES\u201d by HBO PR.")
@@ -1731,3 +1731,12 @@ class ApiTest(unittest.TestCase):
         resp = self.api.GetGeoSearch(latitude=37.7821120598956, longitude=-122.400612831116)
 
         self.assertTrue(isinstance(resp, list))
+
+    @responses.activate
+    def testGetGeoPlaceID(self):
+        with open('testdata/get_geo_id_df51dec6f4ee2b2c.json') as f:
+            resp_data = f.read()
+        responses.add(responses.GET, DEFAULT_URL, body=resp_data, status=200)
+        resp = self.api.GetGeoPlaceId(place_id="5122804691e5fecc")
+        self.assertTrue(isinstance(resp, dict))
+        self.assertEqual(resp['id'], 'df51dec6f4ee2b2c')
