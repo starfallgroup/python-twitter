@@ -320,6 +320,7 @@ class User(TwitterModel):
             'default_profile_image': None,
             'description': None,
             'email': None,
+            'entities': None,
             'favourites_count': None,
             'followers_count': None,
             'following': None,
